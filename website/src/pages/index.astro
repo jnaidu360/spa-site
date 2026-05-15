@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { messages, SITE_LANG_STORAGE_KEY } from '../i18n/site';
 
 const phoneDisplay = '1 (619) 349-9996';
 const phoneHref = 'tel:+16193499996';
@@ -13,55 +14,57 @@ const calmVideo =
 const brandImage =
 	'https://static.wixstatic.com/media/322fab_ee77a6b814ee4d71a73bbb0831313f8e~mv2.png';
 
+const t = (key: string) => messages.en[key] ?? '';
+
 const navItems = [
-	{ label: 'About', href: '#about' },
-	{ label: 'Treatments', href: '#treatments' },
-	{ label: 'Hours', href: '#hours' },
-	{ label: 'Contact', href: '#contact' },
+	{ key: 'nav.about', href: '#about' },
+	{ key: 'nav.treatments', href: '#treatments' },
+	{ key: 'nav.hours', href: '#hours' },
+	{ key: 'nav.contact', href: '#contact' },
 ];
 
 const treatments = [
 	{
-		title: 'Deep Tissue Massage',
+		titleKey: 'treatment.deep.title',
+		textKey: 'treatment.deep.text',
 		price: '$80 per hour / $60 per half hour',
-		text: 'Focused bodywork for muscle tension, deep stress, and areas that need extra attention.',
 	},
 	{
-		title: 'Pain Relief Massage',
-		price: 'Call for current availability',
-		text: 'Therapeutic sessions shaped around discomfort, circulation, and recovery goals.',
+		titleKey: 'treatment.pain.title',
+		textKey: 'treatment.pain.text',
+		priceKey: 'treatment.pain.price',
 	},
 	{
-		title: 'Hot Stone Massage',
-		price: 'Call for current availability',
-		text: 'Warm stone therapy designed to soften tight muscles and encourage full-body relaxation.',
+		titleKey: 'treatment.hot.title',
+		textKey: 'treatment.hot.text',
+		priceKey: 'treatment.hot.price',
 	},
 	{
-		title: 'Cupping Therapy',
+		titleKey: 'treatment.cup.title',
+		textKey: 'treatment.cup.text',
 		price: '$40 per half hour',
-		text: 'Targeted cupping support for circulation, mobility, and post-treatment ease.',
 	},
 ];
 
 const experienceCards = [
 	{
-		title: 'Skilled Therapists',
-		text: 'Every session begins with a conversation about pressure, areas of focus, and wellness goals.',
+		titleKey: 'exp.skilled.title',
+		textKey: 'exp.skilled.text',
 	},
 	{
-		title: 'Personalized Techniques',
-		text: 'Choose focused deep tissue work, gentle relaxation, hot stone therapy, or reflexology-inspired care.',
+		titleKey: 'exp.personal.title',
+		textKey: 'exp.personal.text',
 	},
 	{
-		title: 'Restful Setting',
-		text: 'A quiet San Diego spa environment for stepping away from daily stress and returning refreshed.',
+		titleKey: 'exp.rest.title',
+		textKey: 'exp.rest.text',
 	},
 ];
 ---
 
-<Layout>
+<Layout title={t('meta.title')} description={t('meta.description')}>
 	<header class="site-header">
-		<a class="brand" href="#top" aria-label="Waples SPA home">
+		<a class="brand" id="site-brand" href="#top" data-i18n-aria="brand.aria" aria-label={t('brand.aria')}>
 			<span class="brand-logo-bg">
 				<img
 					class="brand-logo"
@@ -77,58 +80,71 @@ const experienceCards = [
 			</span>
 		</a>
 		<nav class="main-nav" aria-label="Primary navigation">
-			{navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+			{navItems.map((item) => (
+				<a href={item.href} data-i18n={item.key}>
+					{t(item.key)}
+				</a>
+			))}
 		</nav>
-		<a class="header-cta" href={phoneHref}>Book Now</a>
+		<div class="header-end">
+			<div class="lang-switch" role="group" data-i18n-aria="aria.lang" aria-label={t('aria.lang')}>
+				<button type="button" class="lang-switch-btn" data-set-lang="en" aria-pressed="true">
+					{t('lang.switchEn')}
+				</button>
+				<span class="lang-switch-sep" aria-hidden="true">|</span>
+				<button type="button" class="lang-switch-btn" data-set-lang="zh" aria-pressed="false">
+					{t('lang.switchZh')}
+				</button>
+			</div>
+			<a class="header-cta" href={phoneHref} data-i18n="cta.book">
+				{t('cta.book')}
+			</a>
+		</div>
 	</header>
 
 	<main id="top">
-		<section class="hero" aria-label="Waples SPA welcome">
+		<section class="hero" aria-label={t('aria.hero')} data-i18n-aria="aria.hero">
 			<video class="hero-media" autoplay muted loop playsinline src={heroVideo}></video>
 			<div class="hero-overlay"></div>
 			<div class="hero-content">
-				<p class="eyebrow">Relaxing massage and wellness in San Diego</p>
+				<p class="eyebrow" data-i18n="hero.eyebrow">{t('hero.eyebrow')}</p>
 				<h1>
 					Waples <span class="smaller">SPA</span>
 				</h1>
-				<p>
-					A calm massage destination for deep relaxation, focused therapeutic care, and
-					everyday renewal.
-				</p>
+				<p data-i18n="hero.lead">{t('hero.lead')}</p>
 				<div class="button-row">
-					<a class="button primary" href={phoneHref}>Reserve by Phone</a>
-					<a class="button ghost" href="#treatments">View Treatments</a>
+					<a class="button primary" href={phoneHref} data-i18n="hero.reserve">
+						{t('hero.reserve')}
+					</a>
+					<a class="button ghost" href="#treatments" data-i18n="hero.viewTreatments">
+						{t('hero.viewTreatments')}
+					</a>
 				</div>
 			</div>
 		</section>
 
 		<section class="intro" id="about">
 			<div class="intro-copy">
-				<p class="eyebrow">Welcome to Waples SPA</p>
-				<h2>Your San Diego destination for relaxation and wellness.</h2>
+				<p class="eyebrow" data-i18n="intro.eyebrow">{t('intro.eyebrow')}</p>
+				<h2 data-i18n="intro.h2">{t('intro.h2')}</h2>
 			</div>
 			<div class="intro-details">
-				<p>
-					Located at {address}, Waples SPA offers a tranquil place to unwind, recharge,
-					and receive massage services from skilled therapists.
-				</p>
-				<p>
-					Whether you want to release muscle tension, improve circulation, or simply take
-					a restorative pause, each visit is tailored around your comfort and needs.
-				</p>
-				<a class="text-link" href={phoneHref}>Call {phoneDisplay}</a>
+				<p data-i18n="intro.p1">{t('intro.p1').replace('{address}', address)}</p>
+				<p data-i18n="intro.p2">{t('intro.p2')}</p>
+				<a class="text-link" href={phoneHref} data-i18n="intro.call">
+					{t('intro.call').replace('{phone}', phoneDisplay)}
+				</a>
 			</div>
 		</section>
 
 		<section class="text-image text-image-right">
 			<div class="panel panel-sage">
-				<p class="eyebrow">Therapeutic Massage</p>
-				<h2>Focused techniques, delivered with a calm touch.</h2>
-				<p>
-					The spa offers deep tissue massage, pain relief massage, hot stone massage,
-					foot reflexology, cupping therapy, and classic full-body relaxation.
-				</p>
-				<a class="button dark" href="#treatments">Explore Services</a>
+				<p class="eyebrow" data-i18n="panel.therapeutic.eyebrow">{t('panel.therapeutic.eyebrow')}</p>
+				<h2 data-i18n="panel.therapeutic.h2">{t('panel.therapeutic.h2')}</h2>
+				<p data-i18n="panel.therapeutic.p">{t('panel.therapeutic.p')}</p>
+				<a class="button dark" href="#treatments" data-i18n="panel.therapeutic.cta">
+					{t('panel.therapeutic.cta')}
+				</a>
 			</div>
 			<div class="media-card">
 				<video autoplay muted loop playsinline src={treatmentVideo}></video>
@@ -140,36 +156,39 @@ const experienceCards = [
 				<video autoplay muted loop playsinline src={calmVideo}></video>
 			</div>
 			<div class="panel panel-linen">
-				<p class="eyebrow">Personalized Care</p>
-				<h2>Each appointment begins with what your body needs today.</h2>
-				<p>
-					Before every session, therapists discuss pressure preferences, health concerns,
-					and areas that need special attention so the experience feels restorative and
-					complete.
-				</p>
-				<a class="button outline" href={phoneHref}>Plan a Visit</a>
+				<p class="eyebrow" data-i18n="panel.personal.eyebrow">{t('panel.personal.eyebrow')}</p>
+				<h2 data-i18n="panel.personal.h2">{t('panel.personal.h2')}</h2>
+				<p data-i18n="panel.personal.p">{t('panel.personal.p')}</p>
+				<a class="button outline" href={phoneHref} data-i18n="panel.personal.cta">
+					{t('panel.personal.cta')}
+				</a>
 			</div>
 		</section>
 
 		<section class="featured" id="treatments">
 			<div class="featured-header">
-				<p class="eyebrow">Massage Services</p>
-				<h2>Restorative treatments for tension, circulation, and calm.</h2>
-				<p>
-					Choose a service that matches your pace, from targeted deep tissue support to a
-					soothing hot stone escape.
-				</p>
+				<p class="eyebrow" data-i18n="featured.eyebrow">{t('featured.eyebrow')}</p>
+				<h2 data-i18n="featured.h2">{t('featured.h2')}</h2>
+				<p data-i18n="featured.lead">{t('featured.lead')}</p>
 			</div>
 			<div class="treatment-grid">
 				{
 					treatments.map((treatment) => (
 						<article class="treatment-card">
 							<div>
-								<p class="card-kicker">{treatment.price}</p>
-								<h3>{treatment.title}</h3>
-								<p>{treatment.text}</p>
+								<p class="card-kicker">
+									{treatment.priceKey ? (
+										<span data-i18n={treatment.priceKey}>{t(treatment.priceKey)}</span>
+									) : (
+										treatment.price
+									)}
+								</p>
+								<h3 data-i18n={treatment.titleKey}>{t(treatment.titleKey)}</h3>
+								<p data-i18n={treatment.textKey}>{t(treatment.textKey)}</p>
 							</div>
-							<a href={phoneHref}>Book treatment</a>
+							<a href={phoneHref} data-i18n="treatment.book">
+								{t('treatment.book')}
+							</a>
 						</article>
 					))
 				}
@@ -179,14 +198,14 @@ const experienceCards = [
 		<section class="experience">
 			<div class="experience-image" style={`background-image: url(${brandImage});`}></div>
 			<div class="experience-content">
-				<p class="eyebrow">The Experience</p>
-				<h2>Relaxation is the service and the promise.</h2>
+				<p class="eyebrow" data-i18n="experience.eyebrow">{t('experience.eyebrow')}</p>
+				<h2 data-i18n="experience.h2">{t('experience.h2')}</h2>
 				<div class="experience-list">
 					{
 						experienceCards.map((card) => (
 							<article>
-								<h3>{card.title}</h3>
-								<p>{card.text}</p>
+								<h3 data-i18n={card.titleKey}>{t(card.titleKey)}</h3>
+								<p data-i18n={card.textKey}>{t(card.textKey)}</p>
 							</article>
 						))
 					}
@@ -196,20 +215,20 @@ const experienceCards = [
 
 		<section class="amenities" id="hours">
 			<div class="amenities-header">
-				<p class="eyebrow">Visit Waples SPA</p>
-				<h2>Open daily for appointments.</h2>
+				<p class="eyebrow" data-i18n="amenities.eyebrow">{t('amenities.eyebrow')}</p>
+				<h2 data-i18n="amenities.h2">{t('amenities.h2')}</h2>
 			</div>
 			<div class="amenities-grid">
 				<div>
-					<h3>Open Hours</h3>
-					<p>Mon-Sun: 09:30 AM-09:00 PM</p>
+					<h3 data-i18n="amen.hoursTitle">{t('amen.hoursTitle')}</h3>
+					<p data-i18n="amen.hoursBody">{t('amen.hoursBody')}</p>
 				</div>
 				<div>
-					<h3>Reservations</h3>
+					<h3 data-i18n="amen.resTitle">{t('amen.resTitle')}</h3>
 					<p><a href={phoneHref}>{phoneDisplay}</a></p>
 				</div>
 				<div>
-					<h3>Address</h3>
+					<h3 data-i18n="amen.addrTitle">{t('amen.addrTitle')}</h3>
 					<p>{address}</p>
 				</div>
 			</div>
@@ -219,13 +238,83 @@ const experienceCards = [
 	<footer class="site-footer" id="contact">
 		<div>
 			<p class="footer-brand">Waples SPA</p>
-			<p>Relaxing Massage & Wellness in San Diego</p>
+			<p data-i18n="footer.tagline">{t('footer.tagline')}</p>
 		</div>
 		<div>
 			<a href={phoneHref}>{phoneDisplay}</a>
 			<span>{address}</span>
 		</div>
 	</footer>
+
+	<script
+		is:inline
+		define:vars={{ messages, SITE_LANG_STORAGE_KEY, address, phoneDisplay }}
+	>
+		(function () {
+			function fill(s) {
+				return String(s).replaceAll('{address}', address).replaceAll('{phone}', phoneDisplay);
+			}
+
+			function applyLang(lang) {
+				const pack = messages[lang];
+				if (!pack) return;
+
+				document.documentElement.lang = lang === 'zh' ? 'zh' : 'en';
+				try {
+					localStorage.setItem(SITE_LANG_STORAGE_KEY, lang);
+				} catch {}
+
+				document.querySelectorAll('[data-i18n]').forEach(function (el) {
+					var key = el.getAttribute('data-i18n');
+					if (!key || pack[key] == null) return;
+					el.textContent = fill(pack[key]);
+				});
+
+				document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
+					var key = el.getAttribute('data-i18n-aria');
+					if (!key || pack[key] == null) return;
+					el.setAttribute('aria-label', fill(pack[key]));
+				});
+
+				var meta = document.querySelector('meta[name="description"]');
+				if (meta && pack['meta.description'] != null) {
+					meta.setAttribute('content', fill(pack['meta.description']));
+				}
+				if (pack['meta.title'] != null) {
+					document.title = fill(pack['meta.title']);
+				}
+
+				document.querySelectorAll('[data-set-lang]').forEach(function (btn) {
+					var active = btn.getAttribute('data-set-lang') === lang;
+					btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+				});
+			}
+
+			function detectInitial() {
+				try {
+					var stored = localStorage.getItem(SITE_LANG_STORAGE_KEY);
+					if (stored === 'en' || stored === 'zh') return stored;
+				} catch {}
+				if (
+					typeof navigator !== 'undefined' &&
+					navigator.language &&
+					navigator.language.toLowerCase().indexOf('zh') === 0
+				) {
+					return 'zh';
+				}
+				return 'en';
+			}
+
+			applyLang(detectInitial());
+
+			document.querySelectorAll('[data-set-lang]').forEach(function (btn) {
+				btn.addEventListener('click', function () {
+					var lang = btn.getAttribute('data-set-lang');
+					if (lang === 'en' || lang === 'zh') applyLang(lang);
+				});
+			});
+		})();
+	</script>
 </Layout>
 
 <style>
@@ -316,13 +405,57 @@ const experienceCards = [
 
 	.header-cta {
 		align-self: center;
-		justify-self: end;
 		padding: 0.8rem 1.4rem;
 		border: 1px solid currentColor;
 		border-radius: 999px;
 		font-size: 0.78rem;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
+	}
+
+	.header-end {
+		align-self: center;
+		justify-self: end;
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.lang-switch {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
+		font-size: 0.72rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+	}
+
+	.lang-switch-sep {
+		color: rgba(47, 46, 51, 0.35);
+		user-select: none;
+	}
+
+	.lang-switch-btn {
+		margin: 0;
+		padding: 0.35rem 0.45rem;
+		border: none;
+		border-radius: 4px;
+		background: transparent;
+		color: inherit;
+		font: inherit;
+		letter-spacing: inherit;
+		text-transform: inherit;
+		cursor: pointer;
+	}
+
+	.lang-switch-btn:hover {
+		color: var(--color-olive);
+	}
+
+	.lang-switch-btn[aria-pressed='true'] {
+		font-weight: 600;
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
 	}
 
 	.hero {
