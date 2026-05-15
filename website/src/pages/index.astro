@@ -62,8 +62,19 @@ const experienceCards = [
 <Layout>
 	<header class="site-header">
 		<a class="brand" href="#top" aria-label="Waples SPA home">
-			<span>Waples</span>
-			<small>SPA</small>
+			<span class="brand-logo-bg">
+				<img
+					class="brand-logo"
+					src="/waples-spa-navbar-logo.png"
+					width="320"
+					height="140"
+					alt=""
+				/>
+			</span>
+			<span class="brand-wordmark">
+				<span>Waples</span>
+				<small>SPA</small>
+			</span>
 		</a>
 		<nav class="main-nav" aria-label="Primary navigation">
 			{navItems.map((item) => <a href={item.href}>{item.label}</a>)}
@@ -217,6 +228,8 @@ const experienceCards = [
 
 <style>
 	.site-header {
+		--header-pad-x: clamp(1rem, 4vw, 4rem);
+		--header-pad-y: 1.25rem;
 		position: fixed;
 		z-index: 20;
 		top: 0;
@@ -224,32 +237,65 @@ const experienceCards = [
 		right: 0;
 		display: grid;
 		grid-template-columns: 1fr auto 1fr;
-		align-items: center;
+		align-items: stretch;
 		gap: 2rem;
-		padding: 1.25rem clamp(1rem, 4vw, 4rem);
+		padding: var(--header-pad-y) var(--header-pad-x);
 		background: rgba(255, 250, 244, 0.9);
 		backdrop-filter: blur(16px);
 		border-bottom: 1px solid rgba(47, 46, 51, 0.12);
 	}
 
 	.brand {
+		align-self: stretch;
+		display: flex;
+		align-items: center;
+		height: 100%;
+		gap: 0.65rem;
+		min-height: 0;
+		text-decoration: none;
+		color: var(--color-ink);
+	}
+
+	.brand-logo-bg {
+		align-self: stretch;
+		display: flex;
+		align-items: center;
+		box-sizing: border-box;
+		/* +2px covers subpixel rounding so the navy meets the header bottom cleanly */
+		height: calc(100% + 2 * var(--header-pad-y) + 2px);
+		margin-top: calc(-1 * var(--header-pad-y));
+		margin-bottom: calc(-1 * var(--header-pad-y));
+		margin-left: calc(-1 * var(--header-pad-x));
+		padding: var(--header-pad-y) calc(0.55rem + 14px) var(--header-pad-y) var(--header-pad-x);
+		background: #0a212b;
+	}
+
+	.brand-logo {
+		display: block;
+		height: clamp(2rem, 3.6vw, 2.85rem);
+		width: auto;
+		max-width: min(260px, 52vw);
+		object-fit: contain;
+	}
+
+	.brand-wordmark {
 		display: inline-flex;
 		align-items: baseline;
 		gap: 0.4rem;
 		font-family: var(--font-display);
 		font-size: clamp(1.5rem, 2vw, 2.2rem);
-		text-decoration: none;
 		letter-spacing: 0.05em;
 		text-transform: uppercase;
 	}
 
-	.brand small {
+	.brand-wordmark small {
 		font-family: var(--font-body);
 		font-size: 0.8rem;
 		letter-spacing: 0.32em;
 	}
 
 	.main-nav {
+		align-self: center;
 		display: flex;
 		align-items: center;
 		gap: clamp(1rem, 3vw, 2.4rem);
@@ -267,6 +313,7 @@ const experienceCards = [
 	}
 
 	.header-cta {
+		align-self: center;
 		justify-self: end;
 		padding: 0.8rem 1.4rem;
 		border: 1px solid currentColor;
@@ -646,6 +693,8 @@ const experienceCards = [
 
 	@media (max-width: 640px) {
 		.site-header {
+			--header-pad-x: 1rem;
+			--header-pad-y: 1rem;
 			padding: 1rem;
 		}
 
