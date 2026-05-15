@@ -11,8 +11,7 @@ const treatmentVideo =
 	'https://video.wixstatic.com/video/11062b_3d68351cded1425a83c0d418196c02ba/1080p/mp4/file.mp4';
 const calmVideo =
 	'https://video.wixstatic.com/video/11062b_cf4444776baf4b40a69972b4abe23417/720p/mp4/file.mp4';
-const brandImage =
-	'https://static.wixstatic.com/media/322fab_ee77a6b814ee4d71a73bbb0831313f8e~mv2.png';
+const experienceImage = '/experience-relaxation.png';
 
 const t = (key: string) => messages.en[key] ?? '';
 
@@ -196,7 +195,7 @@ const experienceCards = [
 		</section>
 
 		<section class="experience">
-			<div class="experience-image" style={`background-image: url(${brandImage});`}></div>
+			<div class="experience-image" style={`background-image: url(${experienceImage});`}></div>
 			<div class="experience-content">
 				<p class="eyebrow" data-i18n="experience.eyebrow">{t('experience.eyebrow')}</p>
 				<h2 data-i18n="experience.h2">{t('experience.h2')}</h2>
